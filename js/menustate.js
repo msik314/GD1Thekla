@@ -14,6 +14,10 @@ menuState.prototype.create=function(){
 	startButton.events.onInputDown.add(transition, this);
 }
 
+menuState.prototype.update=function(){
+	
+}
+
 menuState.prototype.transition=function(){
 	game.state.start("levelonestate");
 }
