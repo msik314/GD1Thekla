@@ -44,5 +44,6 @@ transitionState.prototype.transition=function(){
 				break;
 			case 3:
 				game.state.start("levelthreestate");
+		}
 	}
 }
