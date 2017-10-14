@@ -7,11 +7,11 @@ let leveltwoState=function(){
 	this.finishX = 0;
 	this.finishY = 0;
 	this.lvl = 2;
-	this.passed = true;
+	this.passed = false;
 }
 
 leveltwoState.prototype.preload=function(){
-	
+	game.camera.flash(0x000000,1000);
 }
 
 leveltwoState.prototype.create=function(){
@@ -44,7 +44,10 @@ leveltwoState.prototype.update=function(){
 leveltwoState.prototype.transition = function(){
 	//this.score += 10;
     //this.scoreText.text = 'Score: ' + this.score;
-	game.state.start("testts",true,false,this.passed,this.lvl);
+	game.camera.fade(0x000000,1000);
+	this.camera.onFadeComplete.add(function() {
+        game.state.start("testts",true,false,this.passed,this.lvl);
+    }, this);
 }
 
 

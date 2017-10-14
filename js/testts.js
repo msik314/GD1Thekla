@@ -10,7 +10,7 @@ testtsState.prototype.init=function(passed,lvl){
 }
 
 testtsState.prototype.preload=function(){
-	
+	game.camera.flash(0x000000,1000);
 }
 
 testtsState.prototype.create=function(){
@@ -24,29 +24,32 @@ testtsState.prototype.update=function(){
 }
 
 testtsState.prototype.transition=function(){
-	if(this.pass){
+	game.camera.fade(0x000000,1000);
+	this.camera.onFadeComplete.add(function() {
+        if(this.pass){
 		switch(this.level){
 			case 1:
-				game.state.start("leveltwostate");
+				this.game.state.start("leveltwostate");
 				break;
 			case 2:
-				game.state.start("levelthreestate");
+				this.game.state.start("levelthreestate");
 				break;
 			case 3:
-				game.state.start("endstate");
+				this.game.state.start("endstate");
 				break;
 		}
 	}else{
 		switch(this.level){
 			case 1:
-				game.state.start("levelonestate");
+				this.game.state.start("levelonestate");
 				break;
 			case 2:
-				game.state.start("leveltwostate");
+				this.game.state.start("leveltwostate");
 				break;
 			case 3:
-				game.state.start("levelthreestate");
+				this.game.state.start("levelthreestate");
 				break;
 		}
 	}
+    }, this);
 }

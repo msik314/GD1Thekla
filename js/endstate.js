@@ -4,7 +4,7 @@ let endState=function(){
 }
 
 endState.prototype.preload=function(){
-	
+	game.camera.flash(0x000000,1000);
 }
 
 endState.prototype.create=function(){
