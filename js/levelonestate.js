@@ -1,6 +1,5 @@
 //Constructor
 let leveloneState=function(){
-	//this.score = 0;
 	this.score = 0;
 	this.swiping = false;
 	this.startX = 0;
