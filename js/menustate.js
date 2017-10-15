@@ -15,6 +15,7 @@ menuState.prototype.preload=function(){
 menuState.prototype.create=function(){
 	//Just the middle of the screen for now, until theres an actual graphic
 	startButton=game.add.sprite(0,0,"startButton");
+	
 	//startButton.inputEnabled=true;
 	//startButton.events.onInputDown.add(this.transition);
 	//let 
@@ -65,6 +66,7 @@ menuState.prototype.swiped = function(){
 		else{
 			if(this.finishY > this.startY){
 				this.scoreText.text = 'Score: down';
+				game.state.start("levelonestate");
 			}
 			else{
 				this.scoreText.text = 'Score: up';
