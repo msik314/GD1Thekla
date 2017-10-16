@@ -60,27 +60,28 @@ leveloneState.prototype.update = function(){
 	game.physics.arcade.collide(this.arrows, this.arrows);
 	
 	
-	//SWIPE FUNCTIONALITY
-	if(game.input.activePointer.isDown){
-		if(this.swiping === false){
-			this.swiping = true;
-			this.startX = game.input.mousePointer.x;
-			this.startY = game.input.mousePointer.y;
+	//SWIPE FUNCTIONALITY -- ONLY CHECK IF LOOKING FOR INPUT
+	if(!this.currentlyInstructing){
+		if(game.input.activePointer.isDown){
+			if(this.swiping === false){
+				this.swiping = true;
+				this.startX = game.input.mousePointer.x;
+				this.startY = game.input.mousePointer.y;
+			}
+			startButton.alpha = 1;
+			//this.transition();
 		}
-		startButton.alpha = 1;
-		//this.transition();
-	}
-	else{
-		startButton.alpha = .5;
-		if(this.swiping === true){
-			this.swiping = false;
-			this.finishX = game.input.mousePointer.x;
-			this.finishY = game.input.mousePointer.y;
-			this.swiped();
-			
+		else{
+			startButton.alpha = .5;
+			if(this.swiping === true){
+				this.swiping = false;
+				this.finishX = game.input.mousePointer.x;
+				this.finishY = game.input.mousePointer.y;
+				this.swiped();
+				
+			}
 		}
 	}
-	
 	//INSTRUCTION FUNCTIONALITY
 	if(game.time.totalElapsedSeconds() - this.startTime > this.instrTimes[this.instrIndex]){
 		
@@ -93,6 +94,7 @@ leveloneState.prototype.update = function(){
 			
 		}
 		if(this.instrType[this.instrIndex] == 1){
+			this.currentlyInstructing = false;
 			this.sendBar();
 		}
 		this.instrIndex++;
@@ -106,7 +108,7 @@ leveloneState.prototype.update = function(){
 //first instruction in a set
 leveloneState.prototype.firstInstruct = function(){
 	this.score++;
-	this.scoreText.text = 'Score: ' + this.score;
+	this.scoreText.text = 'Score: FIRST';
 	this.instructor.alpha = 1;
 	
 	this.currentDirections = [];
@@ -211,23 +213,61 @@ leveloneState.prototype.generateArrow = function(){
 
 leveloneState.prototype.swiped = function(){
 	if(Math.abs(this.startX - this.finishX) > 15 || Math.abs(this.startY - this.finishY) > 15){
-		if(Math.abs(this.startX - this.finishX) > Math.abs(this.startY - this.finishY)){
-			if(this.finishX > this.startX){
-				this.scoreText.text = 'Score: right';
+		
+		let temp = this.bars.getFirstAlive();
+		
+		if(temp){
+				
+			
+			
+			if(Math.abs(this.startX - this.finishX) > Math.abs(this.startY - this.finishY)){
+				if(this.finishX > this.startX){
+					this.scoreText.text = 'Score: right';
+					if(this.currentDirections[0] === 1){
+						this.scoreText.text = 'Score: correct';
+					}
+					else{
+						this.scoreText.text = 'Score: wrong';
+					}
+				}
+				else{
+					if(this.currentDirections[0] === 3){
+						this.scoreText.text = 'Score: correct';
+					}
+					else{
+						this.scoreText.text = 'Score: wrong';
+					}
+					//this.scoreText.text = 'Score: left';
+				}
+				
 			}
 			else{
-				this.scoreText.text = 'Score: left';
+				if(this.finishY > this.startY){
+					if(this.currentDirections[0] === 2){
+						this.scoreText.text = 'Score: correct';
+					}
+					else{
+						this.scoreText.text = 'Score: wrong';
+					}
+					//this.scoreText.text = 'Score: down';
+				}
+				else{
+					if(this.currentDirections[0] === 0){
+						this.scoreText.text = 'Score: correct';
+					}
+					else{
+						this.scoreText.text = 'Score: wrong';
+					}
+					//this.scoreText.text = 'Score: up';
+				}
 			}
 			
-		}
-		else{
-			if(this.finishY > this.startY){
-				this.scoreText.text = 'Score: down';
+			if(this.currentDirections.length > 0){
+				this.currentDirections.shift();
 			}
-			else{
-				this.scoreText.text = 'Score: up';
-			}
+			temp.kill();
 		}
+		
 	}
 	
 }
