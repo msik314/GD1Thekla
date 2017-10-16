@@ -6,9 +6,10 @@ let leveloneState=function(){
 	this.startY = 0;
 	this.finishX = 0;
 	this.finishY = 0;
-	this.instrCount = [3,4,3,5];
-	this.instrTimes = [1,2,3,Math.Infinity];
-	this.instrType = [0,0,1,1];
+	this.instrTimes = [1,2,6,7,10,10.5,11,13,13.5,14,Math.Infinity];
+	this.instrType = [0,0,1,1,0,0,0,1,1,1];
+	this.instrDirection = [0,1,0,1,2,3,1,0,0,0];
+	this.currentDirections = [];
 	this.currentlyInstructing = false;
 	this.instrIndex = 0;
 	this.currentTime = 0;
@@ -22,8 +23,12 @@ leveloneState.prototype.preload = function(){
 leveloneState.prototype.create = function(){
 	this.scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#ffffff' });
 	music = game.add.audio('songOne');
+	leftSFX = game.add.audio('leftAud');
+	rightSFX = game.add.audio('rightAud');
+	upSFX = game.add.audio('upAud');
+	downSFX = game.add.audio('downAud');
 	//music.onDecoded.add(start, this);
-	music.play();
+	//music.play();
 	
 	//create instructor;
 	this.instructor = game.add.sprite(game.world.width - 280,24,"instructor");
@@ -33,6 +38,13 @@ leveloneState.prototype.create = function(){
 	
 	//create arrow group
 	this.arrows = game.add.group();
+	this.arrows.enableBody = true;
+	
+	//create bar group
+	this.bars = game.add.group();
+	this.bars.enableBody = true;
+	
+	
 	
 	
 	
@@ -44,6 +56,8 @@ leveloneState.prototype.create = function(){
 }
 
 leveloneState.prototype.update = function(){
+	//collide arrows with each other for stacking
+	game.physics.arcade.collide(this.arrows, this.arrows);
 	
 	
 	//SWIPE FUNCTIONALITY
@@ -94,6 +108,16 @@ leveloneState.prototype.firstInstruct = function(){
 	this.score++;
 	this.scoreText.text = 'Score: ' + this.score;
 	this.instructor.alpha = 1;
+	
+	this.currentDirections = [];
+	if(this.instrDirection[this.instrIndex] === -1){
+		this.currentDirections.push(Math.floor(Math.random() * 4));
+		
+	}else{
+		this.currentDirections.push(this.instrDirection[this.instrIndex]);
+	}
+	this.generateArrow();
+	this.checkNext();
 }
 
 leveloneState.prototype.instruct = function(){
@@ -101,13 +125,36 @@ leveloneState.prototype.instruct = function(){
 	this.score++;
 	this.scoreText.text = 'Score: ' + this.score;
 	this.instructor.alpha = 1;
+	
+	
+	if(this.instrDirection[this.instrIndex] === -1){
+		this.currentDirections.push(Math.floor(Math.random() * 4));
+		
+	}else{
+		this.currentDirections.push(this.instrDirection[this.instrIndex]);
+	}
+	
+	this.generateArrow();
+	this.checkNext();
 }
 
 leveloneState.prototype.sendBar = function(){
 	//instructor.
-	this.score++;
+	this.score = this.instrTimes[this.instrIndex];
 	this.scoreText.text = 'Score: ' + this.score;
 	this.instructor.alpha = 0;
+	let bar = this.bars.create(game.world.width/2,0, "bar");
+	bar.body.velocity.y = 100;
+	this.checkNext();
+}
+
+//check if next item is a playerswipe, if so, decrease the timer for it so it has time to spawn
+leveloneState.prototype.checkNext = function(){
+	
+	if(this.instrType[this.instrIndex + 1] === 1){
+		this.instrTimes[this.instrIndex + 1] -= 1;
+	}
+	
 }
 
 
@@ -129,6 +176,37 @@ leveloneState.prototype.sendBar = function(){
     //this.scoreText.text = 'Score: ' + this.score;
 
 //}
+leveloneState.prototype.generateArrow = function(){
+	
+	if(this.currentDirections[this.currentDirections.length - 1] === 0){
+		let arrow = this.arrows.create(game.world.width - 280, 24, "upArrow");
+		arrow.body.velocity.x = -100;
+		arrow.body.collideWorldBounds = true;
+		upSFX.play();
+	} else if(this.currentDirections[this.currentDirections.length - 1] === 1){
+		let arrow = this.arrows.create(game.world.width - 280, 24, "rightArrow");
+		arrow.body.collideWorldBounds = true;
+		arrow.body.velocity.x = -100;
+		rightSFX.play();
+	}else if(this.currentDirections[this.currentDirections.length - 1] === 2){
+		let arrow = this.arrows.create(game.world.width - 280, 24, "downArrow");
+		arrow.body.collideWorldBounds = true;
+		arrow.body.velocity.x = -100;
+		downSFX.play();
+	}else{
+		let arrow = this.arrows.create(game.world.width - 280, 24, "leftArrow");
+		arrow.body.collideWorldBounds = true;
+		arrow.body.velocity.x = -100;
+		leftSFX.play();
+	}
+	
+	
+	
+	
+	
+}
+
+
 
 
 leveloneState.prototype.swiped = function(){
