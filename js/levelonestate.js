@@ -78,9 +78,11 @@ leveloneState.prototype.create = function(){
 	this.musicPlaying = false;
 	
 	//some constants for quick global tweaks
-	this.arrowSpeed = -800;
+	this.arrowSpeed = -500;
 	this.bufferLength = 3.2;
-	this.barSpeed = 937.5;
+	this.spawnBuffer = .8;
+	this.barSpawnY = -200;
+	this.barSpeed = (game.world.height - 200 - this.barSpawnY)/this.spawnBuffer;
 	
 	
 	
@@ -255,7 +257,7 @@ leveloneState.prototype.sendBar = function(){
 	this.score = this.instrTimes[this.instrIndex];
 	this.scoreText.text = 'Score: ' + this.score;
 	this.instructor.alpha = 0;
-	let bar = this.bars.create(0,0, "bar");
+	let bar = this.bars.create(0,this.barSpawnY, "bar");
 	bar.body.velocity.y = this.barSpeed;
 	this.checkNext();
 }
@@ -264,7 +266,7 @@ leveloneState.prototype.sendBar = function(){
 leveloneState.prototype.checkNext = function(){
 	
 	if(this.instrType[this.instrIndex + 1] === 1){
-		this.instrTimes[this.instrIndex + 1] -= .8;
+		this.instrTimes[this.instrIndex + 1] -= this.spawnBuffer;
 	}
 	
 }
