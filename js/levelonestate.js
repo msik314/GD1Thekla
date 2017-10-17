@@ -12,9 +12,17 @@ let leveloneState=function(){
 
 leveloneState.prototype.preload = function(){
 	game.camera.flash(0x000000,1000);
+	game.load.text('lvl1ts','assets/lvl1timestamp.txt');
 }
 
 leveloneState.prototype.create = function(){
+	lvl1ts=game.cache.getText('lvl1ts');
+	timestamps=lvl1ts.split('\n');
+	instrTimes=timestamps[0].split(' ').map(Number);
+	instrTimes.push(Infinity);
+	instrType=timestamps[1].split(' ').map(Number);
+	instrDirection=timestamps[2].split(' ').map(Number);
+	
 	background=game.add.sprite(0,0,"background");
 	this.scoreText = game.add.text(16, 16, 'LEVEL ONE', { fontSize: '32px', fill: '#ffffff' });
 	contButton=game.add.button(447,275,'continueButton',function(){this.transition(this)},this);	

@@ -12,9 +12,16 @@ let leveltwoState=function(){
 
 leveltwoState.prototype.preload=function(){
 	game.camera.flash(0x000000,1000);
+	game.load.text('lvl2ts','assets/lvl2timestamp.txt');
 }
 
 leveltwoState.prototype.create=function(){
+	lvl2ts=game.cache.getText('lvl2ts');
+	timestamps=lvl2ts.split('\n');
+	instrTimes=timestamps[0].split(' ').map(Number);
+	instrTimes.push(Infinity);
+	instrType=timestamps[1].split(' ').map(Number);
+	instrDirection=timestamps[2].split(' ').map(Number);
 	background=game.add.sprite(0,0,"background");
 	this.scoreText = game.add.text(16, 16, 'LEVEL TWO', { fontSize: '32px', fill: '#ffffff' });
 	contButton=game.add.button(447,275,'continueButton',function(){this.transition(this)},this);
