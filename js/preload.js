@@ -32,11 +32,15 @@ preloadState.prototype.preload=function(){
 	game.load.audio("leftAud","assets/tkLeft.ogg");
 	game.load.audio("rightAud","assets/tkRight.ogg");
 	game.load.audio("upAud","assets/tkUp.ogg");
-	game.load.audio("downAud","assets/tkDown.ogg");	
+	game.load.audio("downAud","assets/tkDown.ogg");
+    
+    game.load.onLoadComplete.add(function(){game.state.start("menustate");}, this);
+    game.load.start();
+    
 }
 
 preloadState.prototype.create=function(){
-	game.state.start("menustate");
+	
 }
 
 preloadState.prototype.update=function(){
