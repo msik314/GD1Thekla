@@ -12,6 +12,7 @@ let leveloneState=function(){
 	this.instrType = [0,0,1,1,0,0,0,1,1,1];
 	this.instrDirection = [-1,1,0,1,2,3,1,0,0,0];
 	this.currentDirections = [];
+	this.currentDirectionsIndex = 0;
 	this.currentlyInstructing = false;
 	this.instrIndex = 0;
 	this.currentTime = 0;
@@ -22,23 +23,24 @@ let leveloneState=function(){
 	//some constants for quick global tweaks
 	this.arrowSpeed = -800;
 	this.bufferLength = 3.2;
+	this.barSpeed = 937.5;
 	
 }
 
 leveloneState.prototype.preload = function(){
 	//game.load.audio("songOne","assets/tk30s.ogg");
 	game.camera.flash(0x000000,1000);
-	//game.load.text('lvl1ts','assets/lvl1timestamp.txt');
+	game.load.text('lvl1ts','assets/lvl1timestamp.txt');
 }
 
 leveloneState.prototype.create = function(){
 	//Load instructions
-	/*lvl3ts=game.cache.getText('lvl3ts');
-	timestamps=lvl3ts.split('\n');
-	instrTimes=timestamps[0].split(' ').map(Number);
-	instrTimes.push(Infinity);
-	instrType=timestamps[1].split(' ').map(Number);
-	instrDirection=timestamps[2].split(' ').map(Number);*/
+	lvl1ts=game.cache.getText('lvl1ts');
+	timestamps=lvl1ts.split('\n');
+	this.instrTimes=timestamps[0].split(' ').map(Number);
+	this.instrTimes.push(Infinity);
+	this.instrType=timestamps[1].split(' ').map(Number);
+	this.instrDirection=timestamps[2].split(' ').map(Number);
 
 	//create background
 	this.water = game.add.sprite(0,0,'water');
@@ -57,7 +59,7 @@ leveloneState.prototype.create = function(){
 	this.wind.animations.play('normal',50,true);
 	
 	
-	this.scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#ffffff' });
+	this.scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000000' });
 	music = game.add.audio('songOne');
 	leftSFX = game.add.audio('leftAud');
 	leftSFX._volume = 5;
@@ -184,7 +186,7 @@ leveloneState.prototype.firstInstruct = function(){
 leveloneState.prototype.instruct = function(){
 	//instructor.
 	this.score++;
-	this.scoreText.text = 'Score: ' + this.score;
+	//this.scoreText.text = 'Score: ' + this.score;
 	this.instructor.alpha = 1;
 	
 	
@@ -206,7 +208,7 @@ leveloneState.prototype.sendBar = function(){
 	this.scoreText.text = 'Score: ' + this.score;
 	this.instructor.alpha = 0;
 	let bar = this.bars.create(0,0, "bar");
-	bar.body.velocity.y = 400;
+	bar.body.velocity.y = this.barSpeed;
 	this.checkNext();
 }
 
@@ -214,7 +216,7 @@ leveloneState.prototype.sendBar = function(){
 leveloneState.prototype.checkNext = function(){
 	
 	if(this.instrType[this.instrIndex + 1] === 1){
-		this.instrTimes[this.instrIndex + 1] -= 1;
+		this.instrTimes[this.instrIndex + 1] -= .8;
 	}
 	
 }
@@ -279,8 +281,10 @@ leveloneState.prototype.removeBar = function(){
 	if(temp){
 		temp.kill();
 	}
-	if(this.currentDirections.length > 0){
-		this.currentDirections.shift();
+	if(this.currentDirections.length > this.currentDirectionsIndex + 1){
+		this.currentDirectionsIndex++;
+	}else{
+		this.currentDirectionsIndex = 0;
 	}
 }
 
@@ -296,7 +300,7 @@ leveloneState.prototype.swiped = function(){
 			if(Math.abs(this.startX - this.finishX) > Math.abs(this.startY - this.finishY)){
 				if(this.finishX > this.startX){
 					this.scoreText.text = 'Score: right';
-					if(this.currentDirections[0] === 1){
+					if(this.currentDirections[this.currentDirectionsIndex] === 1){
 						if(temp.y < game.world.height - 200 && temp.y > game.world.height - 400){
 							this.scoreText.text = 'Score: correct';
 						}else{
@@ -305,11 +309,11 @@ leveloneState.prototype.swiped = function(){
 						
 					}
 					else{
-						this.scoreText.text = 'Score: wrong'+ this.currentDirections[0];
+						this.scoreText.text = 'Score: wrong'+ this.currentDirections[this.currentDirectionsIndex];
 					}
 				}
 				else{
-					if(this.currentDirections[0] === 3){
+					if(this.currentDirections[this.currentDirectionsIndex] === 3){
 						if(temp.y < game.world.height - 200 && temp.y > game.world.height - 400){
 							this.scoreText.text = 'Score: correct';
 						}else{
@@ -317,7 +321,7 @@ leveloneState.prototype.swiped = function(){
 						}
 					}
 					else{
-						this.scoreText.text = 'Score: wrong'+ this.currentDirections[0];
+						this.scoreText.text = 'Score: wrong'+ this.currentDirections[this.currentDirectionsIndex];
 					}
 					//this.scoreText.text = 'Score: left';
 				}
@@ -325,7 +329,7 @@ leveloneState.prototype.swiped = function(){
 			}
 			else{
 				if(this.finishY > this.startY){
-					if(this.currentDirections[0] === 2){
+					if(this.currentDirections[this.currentDirectionsIndex] === 2){
 						if(temp.y < game.world.height - 200 && temp.y > game.world.height - 400){
 							this.scoreText.text = 'Score: correct';
 						}else{
@@ -333,12 +337,12 @@ leveloneState.prototype.swiped = function(){
 						}
 					}
 					else{
-						this.scoreText.text = 'Score: wrong'+ this.currentDirections[0];
+						this.scoreText.text = 'Score: wrong'+ this.currentDirections[this.currentDirectionsIndex];
 					}
 					//this.scoreText.text = 'Score: down';
 				}
 				else{
-					if(this.currentDirections[0] === 0){
+					if(this.currentDirections[this.currentDirectionsIndex] === 0){
 						if(temp.y < game.world.height - 200 && temp.y > game.world.height - 400){
 							this.scoreText.text = 'Score: correct';
 						}else{
@@ -346,7 +350,7 @@ leveloneState.prototype.swiped = function(){
 						}
 					}
 					else{
-						this.scoreText.text = 'Score: wrong' + this.currentDirections[0];
+						this.scoreText.text = 'Score: wrong' + this.currentDirections[this.currentDirectionsIndex];
 					}
 					//this.scoreText.text = 'Score: up';
 				}
