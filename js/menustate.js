@@ -8,6 +8,10 @@ menuState.prototype.preload=function(){
 }
 
 menuState.prototype.create=function(){
+	this.water = game.add.sprite(0,0,'transitionDay');
+	this.water.animations.add('normal');
+	this.water.animations.play('normal',50,true);
+	
 	startButton=game.add.button(447,275,'startButton',function(){this.transition(this)},this);
 }
 
