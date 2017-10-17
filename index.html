@@ -4,6 +4,14 @@
 	<meta charset="UTF-8" />
     <title>PHASER</title>
 	<script type="text/javascript" src="js/phaser.min.js"></script>
+    <script type="text/javascript" src="js/preload.js"></script>
+	<script type="text/javascript" src="js/menustate.js"></script>
+    <script type="text/javascript" src="js/levelonestate.js"></script>
+    <script type="text/javascript" src="js/leveltwostate.js"></script>
+    <script type="text/javascript" src="js/levelthreestate.js"></script>
+	<script type="text/javascript" src="js/testts.js"></script>
+	<script type="text/javascript" src="js/endstate.js"></script>
+    <script type="text/javascript" src="js/infostate.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -14,8 +22,18 @@
 
 <script type="text/javascript">
 
-	let game = new Phaser.Game(1344, 750, Phaser.AUTO);
+	let game = new Phaser.Game(1334, 750, Phaser.AUTO);
+	
+	game.state.add('preloadstate', preloadState);
+	game.state.add('menustate', menuState);
+    game.state.add('infostate', infoState);
+    game.state.add('levelonestate', leveloneState);
+    game.state.add('leveltwostate', leveltwoState);
+	game.state.add('levelthreestate', levelthreeState);
+	game.state.add('endstate', endState);
+    game.state.add('testts', testtsState);
 
+    game.state.start('preloadstate');
     
 </script>
 
