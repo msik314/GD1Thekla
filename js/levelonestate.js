@@ -14,6 +14,13 @@ let leveloneState=function(){
 	this.instrIndex = 0;
 	this.currentTime = 0;
 	this.startTime = 0;
+	
+	this.musicPlaying = false;
+	
+	//some constants for quick global tweaks
+	this.arrowSpeed = -800;
+	this.bufferLength = 3.2;
+	
 }
 
 leveloneState.prototype.preload = function(){
@@ -21,6 +28,24 @@ leveloneState.prototype.preload = function(){
 }
 
 leveloneState.prototype.create = function(){
+	
+	//create background
+	this.water = game.add.sprite(0,0,'water');
+	this.water.animations.add('normal');
+	this.water.animations.play('normal',50,true);
+	
+	//create thekla
+	this.thekla = game.add.sprite(0,50,'thekla');
+	this.thekla.animations.add('idle');
+	this.thekla.animations.play('idle',50,true);
+	
+	//create wind
+	this.wind = game.add.sprite(0,0,'wind');
+	this.wind.size = -1;
+	this.wind.animations.add('normal');
+	this.wind.animations.play('normal',50,true);
+	
+	
 	this.scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#ffffff' });
 	music = game.add.audio('songOne');
 	leftSFX = game.add.audio('leftAud');
@@ -32,10 +57,10 @@ leveloneState.prototype.create = function(){
 	downSFX = game.add.audio('downAud');
 	downSFX._volume = 5;
 	//music.onDecoded.add(start, this);
-	music.play();
+	//music.play();
 	
 	//create instructor;
-	this.instructor = game.add.sprite(game.world.width - 280,24,"instructor");
+	this.instructor = game.add.sprite(0,0,"instructor");
 	this.instructor.animations.add('instructing', [0,1],2.1,true);
 	this.instructor.alpha = 0;
 	this.instructor.animations.play('instructing');
@@ -48,7 +73,7 @@ leveloneState.prototype.create = function(){
 	this.bars = game.add.group();
 	this.bars.enableBody = true;
 	
-	goal = game.add.sprite(0,0,"goal");
+	goal = game.add.sprite(0,game.world.height - 200,"goal");
 	
 	
 	
@@ -57,12 +82,20 @@ leveloneState.prototype.create = function(){
 	
 	//game.time.events.repeat(Phaser.Timer.Second * 10, 4, instruct, this);
 	//game.time.events.loop(Phaser.Timer.SECOND,this.instruct());
-	this.startTime = game.time.totalElapsedSeconds();
+	this.startTime = game.time.totalElapsedSeconds() + this.bufferLength;
 	
 	
 }
 
 leveloneState.prototype.update = function(){
+	
+	//check to see if we should play the music yet
+	if(game.time.totalElapsedSeconds() - this.startTime >= 0 && !this.musicPlaying){
+		this.musicPlaying = true;
+		music.play();
+		
+	}
+	
 	//collide arrows with each other for stacking
 	game.physics.arcade.collide(this.arrows, this.arrows);
 	
@@ -161,7 +194,7 @@ leveloneState.prototype.sendBar = function(){
 	this.score = this.instrTimes[this.instrIndex];
 	this.scoreText.text = 'Score: ' + this.score;
 	this.instructor.alpha = 0;
-	let bar = this.bars.create(game.world.width/2,0, "bar");
+	let bar = this.bars.create(0,0, "bar");
 	bar.body.velocity.y = 400;
 	this.checkNext();
 }
@@ -197,24 +230,24 @@ leveloneState.prototype.checkNext = function(){
 leveloneState.prototype.generateArrow = function(){
 	
 	if(this.currentDirections[this.currentDirections.length - 1] === 0){
-		let arrow = this.arrows.create(game.world.width - 280, 24, "upArrow");
-		arrow.body.velocity.x = -100;
+		let arrow = this.arrows.create(game.world.width - 280, -24, "upArrow");
+		arrow.body.velocity.x = this.arrowSpeed;
 		arrow.body.collideWorldBounds = true;
 		upSFX.play();
 	} else if(this.currentDirections[this.currentDirections.length - 1] === 1){
-		let arrow = this.arrows.create(game.world.width - 280, 24, "rightArrow");
+		let arrow = this.arrows.create(game.world.width - 280, -24, "rightArrow");
 		arrow.body.collideWorldBounds = true;
-		arrow.body.velocity.x = -100;
+		arrow.body.velocity.x = this.arrowSpeed;
 		rightSFX.play();
 	}else if(this.currentDirections[this.currentDirections.length - 1] === 2){
-		let arrow = this.arrows.create(game.world.width - 280, 24, "downArrow");
+		let arrow = this.arrows.create(game.world.width - 280, -24, "downArrow");
 		arrow.body.collideWorldBounds = true;
-		arrow.body.velocity.x = -100;
+		arrow.body.velocity.x = this.arrowSpeed;
 		downSFX.play();
 	}else{
-		let arrow = this.arrows.create(game.world.width - 280, 24, "leftArrow");
+		let arrow = this.arrows.create(game.world.width - 280, -24, "leftArrow");
 		arrow.body.collideWorldBounds = true;
-		arrow.body.velocity.x = -100;
+		arrow.body.velocity.x = this.arrowSpeed;
 		leftSFX.play();
 	}
 	
