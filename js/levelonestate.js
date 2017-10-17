@@ -32,7 +32,7 @@ leveloneState.prototype.create = function(){
 	//create background
 	this.water = game.add.sprite(0,0,'water');
 	this.water.animations.add('normal');
-	this.water.animations.play('normal',50,true);
+	this.water.animations.play('normal',100,true);
 	
 	//create thekla
 	this.thekla = game.add.sprite(0,50,'thekla');
