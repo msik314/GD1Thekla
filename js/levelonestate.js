@@ -15,7 +15,7 @@ let leveloneState=function(){
 	this.currentlyInstructing = false;
 	this.instrIndex = 0;
 	this.currentTime = 0;
-	this.startTime = 0;
+	this.startTime = Infinity;
 	
 	this.musicPlaying = false;
 	
