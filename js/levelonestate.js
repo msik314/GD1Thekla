@@ -21,7 +21,7 @@ let leveloneState=function(){
 	
 	//some constants for quick global tweaks
 	this.arrowSpeed = -800;
-	this.bufferLength = 3.2;
+	this.bufferLength = 0;
 	
 }
 
@@ -93,7 +93,7 @@ leveloneState.prototype.create = function(){
 	
 	//game.time.events.repeat(Phaser.Timer.Second * 10, 4, instruct, this);
 	//game.time.events.loop(Phaser.Timer.SECOND,this.instruct());
-	this.startTime = game.time.totalElapsedSeconds() + this.bufferLength;
+	//this.startTime = game.time.totalElapsedSeconds() + this.bufferLength;
 	
 	//contButton=game.add.button(447,275,'continueButton',function(){this.transition(this)},this);
 }
@@ -101,10 +101,13 @@ leveloneState.prototype.create = function(){
 leveloneState.prototype.update = function(){
 	
 	//check to see if we should play the music yet
-	if(game.time.totalElapsedSeconds() - this.startTime >= 0 && !this.musicPlaying){
-		this.musicPlaying = true;
-		music.play();
-		
+	if(!this.musicPlaying){
+        if(music.currentTime > 0){
+            this.musicPlaying = true;
+            this.startTime = game.time.totalElapsedSeconds();
+        }else{
+            music.play();
+        }
 	}
 	
 	//collide arrows with each other for stacking
