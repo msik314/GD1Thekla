@@ -14,7 +14,12 @@ preloadState.prototype.preload=function(){
 	
 	game.load.spritesheet("thekla", "assets/3dStuff/thekla/spritesheet_boat_idol_v1.png",1334, 750,60);
 	game.load.spritesheet("water", "assets/3dStuff/background/spritesheet_water_normal_v2.png",1334, 750,60);
+	game.load.spritesheet("transitionDay", "assets/3dStuff/background/spritesheet_transition_screen.png",1334, 750,60);
+	game.load.spritesheet("transitionSunset", "assets/3dStuff/background/spritesheet_transition_screen_sunset.png",1334, 750,60);
+	game.load.spritesheet("transitionNight", "assets/3dStuff/background/spritesheet_transition_screen_night.png",1334, 750,60);
+	
 	game.load.spritesheet("wind", "assets/3dStuff/background/spritesheet_wind_v1.png",1334, 750,60);
+	
 	game.load.audio("songOne","assets/tk30s.ogg");
 
 	//bar imports
