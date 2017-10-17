@@ -7,7 +7,7 @@ let leveltwoState=function(){
 	this.finishX = 0;
 	this.finishY = 0;
 	this.lvl = 2;
-	this.passed = false;
+	this.passed = true;
 }
 
 leveltwoState.prototype.preload=function(){
@@ -49,8 +49,6 @@ leveltwoState.prototype.update=function(){
 }
 
 leveltwoState.prototype.transition = function(){
-	//this.score += 10;
-    //this.scoreText.text = 'Score: ' + this.score;
 	game.camera.fade(0x000000,1000);
 	this.camera.onFadeComplete.add(function() {
         game.state.start("testts",true,false,this.passed,this.lvl);
