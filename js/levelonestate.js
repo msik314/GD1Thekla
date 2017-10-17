@@ -6,9 +6,9 @@ let leveloneState=function(){
 	this.startY = 0;
 	this.finishX = 0;
 	this.finishY = 0;
-	this.instrTimes = [1,2,6,7,10,10.5,11,13,13.5,14,Math.Infinity];
+	this.instrTimes = [1,2,6,7,10,10.5,11,13,13.5,14,Infinity];
 	this.instrType = [0,0,1,1,0,0,0,1,1,1];
-	this.instrDirection = [0,1,0,1,2,3,1,0,0,0];
+	this.instrDirection = [-1,1,0,1,2,3,1,0,0,0];
 	this.currentDirections = [];
 	this.currentlyInstructing = false;
 	this.instrIndex = 0;
@@ -24,11 +24,15 @@ leveloneState.prototype.create = function(){
 	this.scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#ffffff' });
 	music = game.add.audio('songOne');
 	leftSFX = game.add.audio('leftAud');
+	leftSFX._volume = 5;
 	rightSFX = game.add.audio('rightAud');
+	rightSFX._volume = 5;
 	upSFX = game.add.audio('upAud');
+	upSFX._volume = 5;
 	downSFX = game.add.audio('downAud');
+	downSFX._volume = 5;
 	//music.onDecoded.add(start, this);
-	//music.play();
+	music.play();
 	
 	//create instructor;
 	this.instructor = game.add.sprite(game.world.width - 280,24,"instructor");
@@ -43,6 +47,9 @@ leveloneState.prototype.create = function(){
 	//create bar group
 	this.bars = game.add.group();
 	this.bars.enableBody = true;
+	
+	goal = game.add.sprite(0,0,"goal");
+	
 	
 	
 	
@@ -102,6 +109,14 @@ leveloneState.prototype.update = function(){
 		
 	}
 	
+	//check to see if you missed an instruction
+	let temp = this.bars.getFirstAlive();
+	if(temp){
+		if(temp.y >= game.world.height - 200){
+			this.removeBar();
+		}
+	}
+	
 	
 }
 
@@ -142,11 +157,12 @@ leveloneState.prototype.instruct = function(){
 
 leveloneState.prototype.sendBar = function(){
 	//instructor.
+	this.removeArrows();
 	this.score = this.instrTimes[this.instrIndex];
 	this.scoreText.text = 'Score: ' + this.score;
 	this.instructor.alpha = 0;
 	let bar = this.bars.create(game.world.width/2,0, "bar");
-	bar.body.velocity.y = 100;
+	bar.body.velocity.y = 400;
 	this.checkNext();
 }
 
@@ -202,14 +218,27 @@ leveloneState.prototype.generateArrow = function(){
 		leftSFX.play();
 	}
 	
-	
-	
-	
-	
 }
 
 
+leveloneState.prototype.removeArrows = function(){
+	let temp = this.arrows.getFirstAlive();
+	while(temp){
+		temp.kill();
+		temp = this.arrows.getFirstAlive();
+	}
+}
 
+leveloneState.prototype.removeBar = function(){
+	let temp = this.bars.getFirstAlive();
+		
+	if(temp){
+		temp.kill();
+	}
+	if(this.currentDirections.length > 0){
+		this.currentDirections.shift();
+	}
+}
 
 leveloneState.prototype.swiped = function(){
 	if(Math.abs(this.startX - this.finishX) > 15 || Math.abs(this.startY - this.finishY) > 15){
@@ -224,18 +253,27 @@ leveloneState.prototype.swiped = function(){
 				if(this.finishX > this.startX){
 					this.scoreText.text = 'Score: right';
 					if(this.currentDirections[0] === 1){
-						this.scoreText.text = 'Score: correct';
+						if(temp.y < game.world.height - 200 && temp.y > game.world.height - 400){
+							this.scoreText.text = 'Score: correct';
+						}else{
+							this.scoreText.text = 'Score: TooSoon';
+						}
+						
 					}
 					else{
-						this.scoreText.text = 'Score: wrong';
+						this.scoreText.text = 'Score: wrong'+ this.currentDirections[0];
 					}
 				}
 				else{
 					if(this.currentDirections[0] === 3){
-						this.scoreText.text = 'Score: correct';
+						if(temp.y < game.world.height - 200 && temp.y > game.world.height - 400){
+							this.scoreText.text = 'Score: correct';
+						}else{
+							this.scoreText.text = 'Score: TooSoon';
+						}
 					}
 					else{
-						this.scoreText.text = 'Score: wrong';
+						this.scoreText.text = 'Score: wrong'+ this.currentDirections[0];
 					}
 					//this.scoreText.text = 'Score: left';
 				}
@@ -244,28 +282,33 @@ leveloneState.prototype.swiped = function(){
 			else{
 				if(this.finishY > this.startY){
 					if(this.currentDirections[0] === 2){
-						this.scoreText.text = 'Score: correct';
+						if(temp.y < game.world.height - 200 && temp.y > game.world.height - 400){
+							this.scoreText.text = 'Score: correct';
+						}else{
+							this.scoreText.text = 'Score: TooSoon';
+						}
 					}
 					else{
-						this.scoreText.text = 'Score: wrong';
+						this.scoreText.text = 'Score: wrong'+ this.currentDirections[0];
 					}
 					//this.scoreText.text = 'Score: down';
 				}
 				else{
 					if(this.currentDirections[0] === 0){
-						this.scoreText.text = 'Score: correct';
+						if(temp.y < game.world.height - 200 && temp.y > game.world.height - 400){
+							this.scoreText.text = 'Score: correct';
+						}else{
+							this.scoreText.text = 'Score: TooSoon';
+						}
 					}
 					else{
-						this.scoreText.text = 'Score: wrong';
+						this.scoreText.text = 'Score: wrong' + this.currentDirections[0];
 					}
 					//this.scoreText.text = 'Score: up';
 				}
 			}
 			
-			if(this.currentDirections.length > 0){
-				this.currentDirections.shift();
-			}
-			temp.kill();
+			this.removeBar();
 		}
 		
 	}
