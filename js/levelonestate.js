@@ -187,7 +187,7 @@ leveloneState.prototype.update = function(){
 			music.play();
 		}
 	}else{
-		if(!music.isPlaying && this.startTime !== Infinity){
+		if(!music.isPlaying && game.time.totalElapsedSeconds() - this.startTime > 1){
 			this.transition();
 		}
 	}
