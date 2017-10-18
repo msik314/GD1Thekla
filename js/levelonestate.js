@@ -33,7 +33,7 @@ leveloneState.prototype.preload = function(){
 	game.camera.flash(0x000000,1000);
 	game.load.text('lvl1ts','assets/lvl1timestamp.txt');
 	
-	game.load.spritesheet("thekla", "assets/3dStuff/thekla/spritesheet_boat_idol_v1.png",1334, 750,60);
+	
 	game.load.spritesheet("water", "assets/3dStuff/background/spritesheet_water_normal_v2.png",1334, 750,60);
 	game.load.spritesheet("wind", "assets/3dStuff/background/spritesheet_wind_v1.png",1334, 750,60);
 	game.load.audio("songOne","assets/tk30s.ogg");
@@ -48,8 +48,20 @@ leveloneState.prototype.preload = function(){
 	//this.water.animations.play('normal',50,true);
 	
 	//create thekla
-	this.thekla = game.add.sprite(0,50,'thekla');
-	this.thekla.animations.add('idle');
+	this.theklaI = game.add.sprite(0,50,'theklaI');
+	this.theklaI.animations.add('idle');
+	
+	this.theklaS = game.add.sprite(0,50,'theklaS');
+	this.theklaS.animations.add('sad');
+	this.theklaS.alpha = 1;
+	
+	this.theklaH1 = game.add.sprite(0,50,'theklaH1');
+	this.theklaH1.animations.add('happy1');
+	this.theklaH1.alpha = 1;
+	
+	//this.theklaH2 = game.add.sprite(0,50,'theklaH2');
+	//this.theklaH2.animations.add('happy2');
+	//this.theklaH2.alpha = 1;
 	//this.thekla.animations.play('idle',50,true);
 	
 	//create wind
@@ -82,6 +94,8 @@ leveloneState.prototype.create = function(){
 	this.startTime = Infinity;
 	
 	this.musicPlaying = false;
+	
+	this.animationIndex = 1;
 	
 	//some constants for quick global tweaks
 	this.arrowSpeed = -800;
@@ -163,15 +177,39 @@ leveloneState.prototype.update = function(){
 			this.startTime = game.time.totalElapsedSeconds();
 			this.musicPlaying = true;
 			this.wind.animations.play('normal',50,true);
-			this.thekla.animations.play('idle',50,true);
+			this.theklaI.animations.play('idle',50,true);
+			this.theklaS.animations.play('sad',50,true);
+			this.theklaH1.animations.play('happy1',50,true);
+			//this.theklaH2.animations.play('happy2',50,true);
 			this.water.animations.play('normal',50,true);
 		}else{
 			music.play();
 		}
-		
-		
+	}
+	
+	if(this.animationIndex === 0){
+		this.theklaS.alpha = 1;
+		this.theklaI.alpha = 0;
+		this.theklaH1.alpha = 0;
+		//this.theklaH2.alpha = 0;
+	}else if(this.animationIndex === 1){
+		this.theklaS.alpha = 0;
+		this.theklaI.alpha = 1;
+		this.theklaH1.alpha = 0;
+		//this.theklaH2.alpha = 0;
+	}else{
+		this.theklaS.alpha = 0;
+		this.theklaI.alpha = 0;
+		if(this.animationIndex % 2 === 0){
+			this.theklaH1.alpha = 1;
+			//this.theklaH2.alpha = 0;
+		}else{
+			this.theklaH1.alpha = 1;
+			//this.theklaH2.alpha = 1;
+		}
 		
 	}
+	
 	
 	//collide arrows with each other for stacking
 	game.physics.arcade.collide(this.arrows, this.arrows);
@@ -224,6 +262,7 @@ leveloneState.prototype.update = function(){
 	let temp = this.bars.getFirstAlive();
 	if(temp){
 		if(temp.y >= game.world.height - 250){
+			this.wrongRead();
 			this.removeBar();
 		}
 	}
@@ -381,35 +420,27 @@ leveloneState.prototype.swiped = function(){
 					if(this.currentDirections[this.currentDirectionsIndex] === 1){
 						if(temp.y < game.world.height){
 							this.scoreText.text = 'Score: correct';
-							this.barsHit++;
-							barCorrectSFX.play();
-							//this.removeBar();
+							this.correctRead();
 						}else{
-							this.scoreText.text = 'Score: TooSoon';
-							barMadeSFX.play();
+							this.wrongRead();
 						}
 						
 					}
 					else{
-						this.scoreText.text = 'Score: wrong'+ this.currentDirections[this.currentDirectionsIndex];
-						barMadeSFX.play();
+						this.wrongRead();
 					}
 				}
 				else{
 					if(this.currentDirections[this.currentDirectionsIndex] === 3){
 						if(temp.y < game.world.height){
 							this.scoreText.text = 'Score: correct';
-							this.barsHit++;
-							barCorrectSFX.play();
-							//this.removeBar();
+							this.correctRead();
 						}else{
-							this.scoreText.text = 'Score: TooSoon';
-							barMadeSFX.play();
+							this.wrongRead();
 						}
 					}
 					else{
-						this.scoreText.text = 'Score: wrong'+ this.currentDirections[this.currentDirectionsIndex];
-						barMadeSFX.play();
+						this.wrongRead();
 					}
 					//this.scoreText.text = 'Score: left';
 				}
@@ -420,18 +451,13 @@ leveloneState.prototype.swiped = function(){
 					if(this.currentDirections[this.currentDirectionsIndex] === 2){
 						if(temp.y < game.world.height){
 							this.scoreText.text = 'Score: correct';
-							this.barsHit++;
-							barCorrectSFX.play();
-							//this.removeBar();
-							//barMadeSFX.play();
+							this.correctRead();
 						}else{
-							this.scoreText.text = 'Score: TooSoon';
-							barMadeSFX.play();
+							this.wrongRead();
 						}
 					}
 					else{
-						this.scoreText.text = 'Score: wrong'+ this.currentDirections[this.currentDirectionsIndex];
-						barMadeSFX.play();
+						this.wrongRead();
 					}
 					//this.scoreText.text = 'Score: down';
 				}
@@ -439,17 +465,14 @@ leveloneState.prototype.swiped = function(){
 					if(this.currentDirections[this.currentDirectionsIndex] === 0){
 						if(temp.y < game.world.height){
 							this.scoreText.text = 'Score: correct';
-							this.barsHit++;
-							barCorrectSFX.play();
-							//this.removeBar();
+							
+							this.correctRead();
 						}else{
-							this.scoreText.text = 'Score: TooSoon';
-							barMadeSFX.play();
+							this.wrongRead();
 						}
 					}
 					else{
-						this.scoreText.text = 'Score: wrong' + this.currentDirections[this.currentDirectionsIndex];
-						barMadeSFX.play();
+						this.wrongRead();
 					}
 					//this.scoreText.text = 'Score: up';
 				}
@@ -462,6 +485,26 @@ leveloneState.prototype.swiped = function(){
 	}
 	
 }
+
+leveloneState.prototype.correctRead = function(){
+	if(this.animationIndex === 0){
+		this.animationIndex = 1;
+	}else{
+		this.animationIndex++;
+	}
+	this.barsHit++;
+	barCorrectSFX.play();
+}
+
+leveloneState.prototype.wrongRead = function(){
+	if(this.animationIndex === 1 || this.animationIndex === 0){
+		this.animationIndex = 0;
+	}else{
+		this.animationIndex = 1;
+	}
+	barMadeSFX.play();
+}
+
 
 leveloneState.prototype.transition = function(){
 	game.camera.fade(0x000000,1000);

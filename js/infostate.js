@@ -33,10 +33,10 @@ infoState.prototype.create=function(){
 	
 	this.instr1 = game.add.sprite(0,0,'instruct1');
 	game.physics.arcade.enable(this.instr1);
-	this.instr2 = game.add.sprite(0,-game.world.height,'instruct2');
+	this.instr2 = game.add.sprite(0,game.world.height,'instruct2');
 	//this.instr1.enableBody = true;
 	game.physics.arcade.enable(this.instr2);
-	this.instr3 = game.add.sprite(0,-game.world.height,'instruct3');
+	this.instr3 = game.add.sprite(0,game.world.height,'instruct3');
 	//this.instr1.enableBody = true;
 	game.physics.arcade.enable(this.instr3);
 	
@@ -64,13 +64,13 @@ infoState.prototype.update=function(){
 			
 		}
 	}
-	if(this.instr1.body.y < game.world.height){
+	if(this.instr1.body.y > -game.world.height){
 		this.instr2.body.velocity.y = this.IDY[0];
 	}else{
 		this.instr2.body.velocity.y = this.IDY[1];
 	}
 	
-	if(this.instr2.body.y < game.world.height){
+	if(this.instr2.body.y > -game.world.height){
 		this.instr3.body.velocity.y = this.IDY[1];
 	}else{
 		this.instr3.body.velocity.y = this.IDY[2];
@@ -109,16 +109,21 @@ infoState.prototype.swiped = function(){
 		}
 		else{
 			if(this.finishY > this.startY){
-				this.IDY[this.IDIndex] = 800;
-				this.IDIndex++;
-				if(this.IDIndex > 2){
-					this.transition();
-				}
+				//this.IDY[this.IDIndex] = 800;
+				//this.IDIndex++;
+				//if(this.IDIndex > 2){
+				//	this.transition();
+				//}
 				//this.scoreText.text = 'Score: down';
 			}
 			else{
 				//up
 				//this.IDY[this.IDIndex] = -800;
+				this.IDY[this.IDIndex] = -800;
+				this.IDIndex++;
+				if(this.IDIndex > 2){
+					this.transition();
+				}
 			}
 		}
 		
