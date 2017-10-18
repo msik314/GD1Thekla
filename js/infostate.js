@@ -122,6 +122,7 @@ infoState.prototype.swiped = function(){
 				this.IDY[this.IDIndex] = -800;
 				this.IDIndex++;
 				if(this.IDIndex > 2){
+					music.stop();
 					this.transition();
 				}
 			}
@@ -133,7 +134,7 @@ infoState.prototype.swiped = function(){
 
 infoState.prototype.transition=function(){
 	game.camera.fade(0x000000,1000);
-	music.fadeOut(1000);
+	
 	this.camera.onFadeComplete.add(function() {
         this.game.state.start("levelonestate");
     }, this);

@@ -39,8 +39,8 @@ leveltwoState.prototype.preload = function(){
 	//game.load.audio("songOne","assets/tk30s.ogg");
 	
 	
-	game.load.audio("correct","assets/tkBellHigh.ogg");
-	game.load.audio("barMade","assets/tkBellLow.ogg");
+	//game.load.audio("correct","assets/tkBellHigh.ogg");
+	//game.load.audio("barMade","assets/tkBellLow.ogg");
 	
 	//create background
 	this.water = game.add.sprite(0,0,'water2');
