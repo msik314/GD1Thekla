@@ -58,7 +58,8 @@ levelthreeState.prototype.preload = function(){
 	this.theklaH1 = game.add.sprite(0,50,'theklaH13');
 	this.theklaH1.animations.add('happy1');
 	this.theklaH1.alpha = 1;
-	
+	this.theklaH1.y -= 40;
+
 	//this.theklaH2 = game.add.sprite(0,50,'theklaH2');
 	//this.theklaH2.animations.add('happy2');
 	//this.theklaH2.alpha = 1;
@@ -360,28 +361,37 @@ levelthreeState.prototype.checkNext = function(){
 
 //}
 levelthreeState.prototype.generateArrow = function(){
-	
-	if(this.currentDirections[this.currentDirections.length - 1] === 0){
-		let arrow = this.arrows.create(game.world.width - 280, -24, "upArrow");
-		arrow.body.velocity.x = this.arrowSpeed  * (game.time.elapsed/16);
-		arrow.body.collideWorldBounds = true;
-		upSFX.play();
-	} else if(this.currentDirections[this.currentDirections.length - 1] === 1){
-		let arrow = this.arrows.create(game.world.width - 280, -24, "rightArrow");
-		arrow.body.collideWorldBounds = true;
-		arrow.body.velocity.x = this.arrowSpeed  * (game.time.elapsed/16);
-		rightSFX.play();
-	}else if(this.currentDirections[this.currentDirections.length - 1] === 2){
-		let arrow = this.arrows.create(game.world.width - 280, -24, "downArrow");
-		arrow.body.collideWorldBounds = true;
-		arrow.body.velocity.x = this.arrowSpeed  * (game.time.elapsed/16);
-		downSFX.play();
-	}else{
-		let arrow = this.arrows.create(game.world.width - 280, -24, "leftArrow");
-		arrow.body.collideWorldBounds = true;
-		arrow.body.velocity.x = this.arrowSpeed * (game.time.elapsed/16);
-		leftSFX.play();
-	}
+    let initXPos = 40 + ((this.currentDirections.length - 1) * 120); //inital x position of arrows
+    if (this.currentDirections[this.currentDirections.length - 1] === 0) {
+        let arrow = this.arrows.create(initXPos, 0, "upArrow");
+        arrow.y -= 17;
+        arrow.scale.setTo(0, 0);
+        let t = this.add.tween(arrow.scale).to({ x: 1, y: 1 }, 250, Phaser.Easing.Back.Out, true, 0); // working
+        t.frameBased = false;
+        upSFX.play();
+    } else if (this.currentDirections[this.currentDirections.length - 1] === 1) {
+        let arrow = this.arrows.create(initXPos, 0, "rightArrow");
+        arrow.y -= 17;
+        arrow.scale.setTo(0, 0);
+        let t = this.add.tween(arrow.scale).to({ x: 1, y: 1 }, 250, Phaser.Easing.Back.Out, true, 0); // working
+        t.frameBased = false;
+        rightSFX.play();
+    } else if (this.currentDirections[this.currentDirections.length - 1] === 2) {
+        let arrow = this.arrows.create(initXPos, 0, "downArrow");
+        arrow.y -= 17;
+        arrow.scale.setTo(0, 0);
+        let t = this.add.tween(arrow.scale).to({ x: 1, y: 1 }, 250, Phaser.Easing.Back.Out, true, 0); // working
+        t.frameBased = false;
+        downSFX.play();
+    } else {
+        let arrow = this.arrows.create(initXPos, 0, "leftArrow");
+        arrow.y -= 17;
+        arrow.scale.setTo(0, 0);
+        let t = this.add.tween(arrow.scale).to({ x: 1, y: 1 }, 250, Phaser.Easing.Back.Out, true, 0); // working
+        t.frameBased = false;
+        leftSFX.play();
+    }
+
 	
 }
 
