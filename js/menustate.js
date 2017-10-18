@@ -54,7 +54,7 @@ menuState.prototype.update=function(){
 
 menuState.prototype.transition=function(){
 	game.camera.fade(0x000000,1000);
-	music.fadeOut(1000);
+	
 	this.camera.onFadeComplete.add(function() {
         this.game.state.start("infostate");
     }, this);
@@ -66,7 +66,7 @@ menuState.prototype.swiped = function(){
 	
 	if(Math.abs(this.startX - this.finishX) > 15 || Math.abs(this.startY - this.finishY) > 15){
 	
-	
+		music.stop();
 		if(Math.abs(this.startX - this.finishX) > Math.abs(this.startY - this.finishY)){
 			if(this.finishX > this.startX){
 				//right
