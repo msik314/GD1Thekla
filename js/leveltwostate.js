@@ -157,7 +157,9 @@ leveltwoState.prototype.create = function(){
 	this.bars.enableBody = true;
 	
 	goal = game.add.sprite(0,game.world.height - 200,"goal");
-	
+	goalAnimated = game.add.sprite(0, 0, "goalAnimated");
+	goalAnimated.y += 240;
+	goalAnimated.animations.add('goalAnimated');
 	
 	
 	
@@ -184,7 +186,9 @@ leveltwoState.prototype.update = function(){
 			this.theklaS.animations.play('sad',this.animationSpeed ,true);
 			this.theklaH1.animations.play('happy1',this.animationSpeed ,true);
 			//this.theklaH2.animations.play('happy2',50,true);
-			this.water.animations.play('normal',this.animationSpeed ,true);
+			this.water.animations.play('normal', this.animationSpeed, true);
+			goalAnimated.play("goalAnimated", 50, true);
+
 		}else{
 			music.play();
 		}

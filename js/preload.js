@@ -51,6 +51,9 @@ preloadState.prototype.preload=function(){
 
 	//bar imports
 	game.load.image("goal", "assets/UI/UI_stationary_bar_WRONG.png");
+	game.load.image("goalBackground", "assets/UI/UI_stationary_bar_background.png");
+	game.load.spritesheet("goalAnimated", "assets/UI/UI_rope_bar.png", 1334, 750, 30);
+
 	game.load.image("instructor","assets/UI/UI_radio_box.png");
 	game.load.image("bar","assets/UI/UI_bar.png");
 
