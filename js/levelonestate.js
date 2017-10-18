@@ -53,15 +53,15 @@ leveloneState.prototype.preload = function(){
 	
 	this.theklaS = game.add.sprite(0,50,'theklaS');
 	this.theklaS.animations.add('sad');
-	this.theklaS.alpha = 0;
+	this.theklaS.alpha = 1;
 	
 	this.theklaH1 = game.add.sprite(0,50,'theklaH1');
 	this.theklaH1.animations.add('happy1');
-	this.theklaH1.alpha = 0;
+	this.theklaH1.alpha = 1;
 	
 	this.theklaH2 = game.add.sprite(0,50,'theklaH2');
 	this.theklaH2.animations.add('happy2');
-	this.theklaH2.alpha = 0;
+	this.theklaH2.alpha = 1;
 	//this.thekla.animations.play('idle',50,true);
 	
 	//create wind
