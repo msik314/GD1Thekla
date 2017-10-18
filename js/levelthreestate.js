@@ -7,14 +7,21 @@ let levelthreeState=function(){
 	this.finishX = 0;
 	this.finishY = 0;
 	this.lvl = 3;
-	this.passed = false;
+	this.passed = true;
 }
 
 levelthreeState.prototype.preload=function(){
 	game.camera.flash(0x000000,1000);
+	game.load.text('lvl3ts','assets/lvl3timestamp.txt');
 }
 
 levelthreeState.prototype.create=function(){
+	lvl3ts=game.cache.getText('lvl3ts');
+	timestamps=lvl3ts.split('\n');
+	instrTimes=timestamps[0].split(' ').map(Number);
+	instrTimes.push(Infinity);
+	instrType=timestamps[1].split(' ').map(Number);
+	instrDirection=timestamps[2].split(' ').map(Number);
 	background=game.add.sprite(0,0,"background");
 	this.scoreText = game.add.text(16, 16, 'LEVEL THREE', { fontSize: '32px', fill: '#ffffff' });
 	contButton=game.add.button(447,275,'continueButton',function(){this.transition(this)},this);
@@ -42,8 +49,6 @@ levelthreeState.prototype.update=function(){
 }
 
 levelthreeState.prototype.transition = function(){
-	//this.score += 10;
-    //this.scoreText.text = 'Score: ' + this.score;
 	game.camera.fade(0x000000,1000);
 	this.camera.onFadeComplete.add(function() {
         game.state.start("testts",true,false,this.passed,this.lvl);

@@ -16,7 +16,12 @@ testtsState.prototype.preload=function(){
 testtsState.prototype.create=function(){
 	this.scoreText = game.add.text(16, 16, 'transition: '+this.pass+this.level, { fontSize: '32px', fill: '#ffffff' });
 	//Just the middle of the screen for now, until theres an actual graphic
-	contButton=game.add.button(447,275,'continueButton',function(){this.transition(this)},this);
+	menuButton=game.add.button(227,275,'menuButton',function(){this.goMenu(this)},this);
+	if(this.pass){
+		contButton=game.add.button(834,275,'continueButton',function(){this.transition(this)},this);
+	}else{
+		retryButton=game.add.button(834,275,'retryButton',function(){this.transition(this)},this);
+	}
 }
 
 testtsState.prototype.update=function(){
@@ -51,5 +56,12 @@ testtsState.prototype.transition=function(){
 				break;
 		}
 	}
+    }, this);
+}
+
+testtsState.prototype.goMenu=function(){
+	game.camera.fade(0x000000,1000);
+	this.camera.onFadeComplete.add(function() {
+        this.game.state.start("menustate");
     }, this);
 }
