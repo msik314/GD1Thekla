@@ -8,12 +8,12 @@ let testtsState=function(){
 
 testtsState.prototype.init=function(passed,lvl,numBars,barsHit){
 	this.pass=passed;
-	//this.level=lvl;
-	//this.bars=numBars;
-	//this.hit=barsHit;
-	this.level=2;
-	this.bars=1;
-	this.hit=1;
+	this.level=lvl;
+	this.bars=numBars;
+	this.hit=barsHit;
+	//this.level=2;
+	//this.bars=1;
+	//this.hit=1;
 }
 
 testtsState.prototype.preload=function(){
@@ -85,6 +85,7 @@ testtsState.prototype.update=function(){
 }
 
 testtsState.prototype.transition=function(){
+	
 	game.camera.fade(0x000000,1000);
 	this.camera.onFadeComplete.add(function() {
         if(this.pass){
@@ -126,7 +127,7 @@ testtsState.prototype.swiped = function(){
 
 	
 	if(Math.abs(this.startX - this.finishX) > 15 || Math.abs(this.startY - this.finishY) > 15){
-	
+		music.stop();
 	
 		if(Math.abs(this.startX - this.finishX) > Math.abs(this.startY - this.finishY)){
 			if(this.finishX > this.startX){
