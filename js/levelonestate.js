@@ -171,11 +171,11 @@ leveloneState.prototype.update = function(){
 				this.startX = game.input.mousePointer.x;
 				this.startY = game.input.mousePointer.y;
 			}
-			startButton.alpha = 1;
+			//startButton.alpha = 1;
 			//this.transition();
 		}
 		else{
-			startButton.alpha = .5;
+			//startButton.alpha = .5;
 			if(this.swiping === true){
 				this.swiping = false;
 				this.finishX = game.input.mousePointer.x;
