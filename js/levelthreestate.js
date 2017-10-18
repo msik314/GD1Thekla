@@ -362,23 +362,23 @@ levelthreeState.prototype.generateArrow = function(){
 	
 	if(this.currentDirections[this.currentDirections.length - 1] === 0){
 		let arrow = this.arrows.create(game.world.width - 280, -24, "upArrow");
-		arrow.body.velocity.x = this.arrowSpeed;
+		arrow.body.velocity.x = this.arrowSpeed  * (game.time.elapsed/16);
 		arrow.body.collideWorldBounds = true;
 		upSFX.play();
 	} else if(this.currentDirections[this.currentDirections.length - 1] === 1){
 		let arrow = this.arrows.create(game.world.width - 280, -24, "rightArrow");
 		arrow.body.collideWorldBounds = true;
-		arrow.body.velocity.x = this.arrowSpeed;
+		arrow.body.velocity.x = this.arrowSpeed  * (game.time.elapsed/16);
 		rightSFX.play();
 	}else if(this.currentDirections[this.currentDirections.length - 1] === 2){
 		let arrow = this.arrows.create(game.world.width - 280, -24, "downArrow");
 		arrow.body.collideWorldBounds = true;
-		arrow.body.velocity.x = this.arrowSpeed;
+		arrow.body.velocity.x = this.arrowSpeed  * (game.time.elapsed/16);
 		downSFX.play();
 	}else{
 		let arrow = this.arrows.create(game.world.width - 280, -24, "leftArrow");
 		arrow.body.collideWorldBounds = true;
-		arrow.body.velocity.x = this.arrowSpeed;
+		arrow.body.velocity.x = this.arrowSpeed * (game.time.elapsed/16);
 		leftSFX.play();
 	}
 	
