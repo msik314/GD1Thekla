@@ -10,10 +10,10 @@ with open('tk30stimestamp.csv') as csvfile:
         timeStamp.append(row[0])
         playerInput.append(row[1])
         if(len(row)>2):
-            if(row[2]!=0 or row[2]!=1 or row[2]!=2 or row[2]!=3):
-                direction.append(-1)
+            if(row[2]=="0" or row[2]=="1" or row[2]=="2" or row[2]=="3"):
+                direction.append(row[2])
             else:
-                direction.append(row[2]) 
+                direction.append(-1)
         else:
             direction.append(-1)
         
@@ -43,10 +43,13 @@ with open('tk60stimestamp.csv') as csvfile:
     for row in readCSV:
         timeStamp.append(row[0])
         playerInput.append(row[1])
-        if(row[2]!=0 or row[2]!=1 or row[2]!=2 or row[2]!=3):
-            direction.append(-1)
+        if(len(row)>2):
+            if(row[2]=="0" or row[2]=="1" or row[2]=="2" or row[2]=="3"):
+                direction.append(row[2])
+            else:
+                direction.append(-1)
         else:
-            direction.append(row[2])
+            direction.append(-1)
         
 text=""
 for i in range(len(timeStamp)-1):
@@ -74,10 +77,13 @@ with open('tk90stimestamp.csv') as csvfile:
     for row in readCSV:
         timeStamp.append(row[0])
         playerInput.append(row[1])
-        if(row[2]!=0 or row[2]!=1 or row[2]!=2 or row[2]!=3):
-            direction.append(-1)
+        if(len(row)>2):
+            if(row[2]=="0" or row[2]=="1" or row[2]=="2" or row[2]=="3"):
+                direction.append(row[2])
+            else:
+                direction.append(-1)
         else:
-            direction.append(row[2])
+            direction.append(-1)
         
 text=""
 for i in range(len(timeStamp)-1):

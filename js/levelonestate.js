@@ -56,6 +56,7 @@ leveloneState.prototype.preload = function(){
 }
 
 leveloneState.prototype.create = function(){
+	game.physics.startSystem(Phaser.Physics.ARCADE);
 	//reset variables on reload
 	this.score = 0;
 	this.swiping = false;
@@ -295,24 +296,32 @@ leveloneState.prototype.generateArrow = function(){
 	if(this.currentDirections[this.currentDirections.length - 1] === 0){
 		let arrow = this.arrows.create(game.world.width - 280, -24, "upArrow");
 		arrow.body.velocity.x = this.arrowSpeed;
+		game.physics.enable(arrow,Phaser.Physics.ARCADE);
 		arrow.body.collideWorldBounds = true;
 		upSFX.play();
 	} else if(this.currentDirections[this.currentDirections.length - 1] === 1){
 		let arrow = this.arrows.create(game.world.width - 280, -24, "rightArrow");
-		arrow.body.collideWorldBounds = true;
 		arrow.body.velocity.x = this.arrowSpeed;
+		game.physics.enable(arrow,Phaser.Physics.ARCADE);
+		arrow.body.collideWorldBounds = true;
 		rightSFX.play();
 	}else if(this.currentDirections[this.currentDirections.length - 1] === 2){
 		let arrow = this.arrows.create(game.world.width - 280, -24, "downArrow");
-		arrow.body.collideWorldBounds = true;
 		arrow.body.velocity.x = this.arrowSpeed;
+		game.physics.enable(arrow,Phaser.Physics.ARCADE);
+		arrow.body.collideWorldBounds = true;
 		downSFX.play();
 	}else{
 		let arrow = this.arrows.create(game.world.width - 280, -24, "leftArrow");
-		arrow.body.collideWorldBounds = true;
 		arrow.body.velocity.x = this.arrowSpeed;
+		game.physics.enable(arrow,Phaser.Physics.ARCADE);
+		arrow.body.collideWorldBounds = true;
 		leftSFX.play();
 	}
+	for(var i=0;i<arrows.children.length-1;++i){
+		game.physics.arcade.collide(arrows[i],arrows[i+1],null,null,this);
+	}
+	game.physics.arcade.collide(arrows[arrows.children.length-1],arrows[0],null,null,this);
 	
 }
 
