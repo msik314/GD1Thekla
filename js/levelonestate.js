@@ -88,7 +88,7 @@ leveloneState.prototype.create = function(){
 	this.bufferLength = 3.2;
 	this.spawnBuffer = .8;
 	this.barSpawnY = -200;
-	this.barSpeed = (game.world.height - 200 - this.barSpawnY)/this.spawnBuffer;
+	this.barSpeed = (game.world.height - 220 - this.barSpawnY)/this.spawnBuffer;
 	this.instrVol = 10;
 	
 	
@@ -281,7 +281,7 @@ leveloneState.prototype.sendBar = function(){
 	this.scoreText.text = 'Score: ' + this.score;
 	this.instructor.alpha = 0;
 	let bar = this.bars.create(0,this.barSpawnY, "bar");
-	barMadeSFX.play();
+	
 	bar.body.velocity.y = this.barSpeed;
 	this.checkNext();
 }
@@ -387,11 +387,13 @@ leveloneState.prototype.swiped = function(){
 							//this.removeBar();
 						}else{
 							this.scoreText.text = 'Score: TooSoon';
+							barMadeSFX.play();
 						}
 						
 					}
 					else{
 						this.scoreText.text = 'Score: wrong'+ this.currentDirections[this.currentDirectionsIndex];
+						barMadeSFX.play();
 					}
 				}
 				else{
@@ -403,10 +405,12 @@ leveloneState.prototype.swiped = function(){
 							//this.removeBar();
 						}else{
 							this.scoreText.text = 'Score: TooSoon';
+							barMadeSFX.play();
 						}
 					}
 					else{
 						this.scoreText.text = 'Score: wrong'+ this.currentDirections[this.currentDirectionsIndex];
+						barMadeSFX.play();
 					}
 					//this.scoreText.text = 'Score: left';
 				}
@@ -420,12 +424,15 @@ leveloneState.prototype.swiped = function(){
 							this.barsHit++;
 							barCorrectSFX.play();
 							//this.removeBar();
+							//barMadeSFX.play();
 						}else{
 							this.scoreText.text = 'Score: TooSoon';
+							barMadeSFX.play();
 						}
 					}
 					else{
 						this.scoreText.text = 'Score: wrong'+ this.currentDirections[this.currentDirectionsIndex];
+						barMadeSFX.play();
 					}
 					//this.scoreText.text = 'Score: down';
 				}
@@ -438,10 +445,12 @@ leveloneState.prototype.swiped = function(){
 							//this.removeBar();
 						}else{
 							this.scoreText.text = 'Score: TooSoon';
+							barMadeSFX.play();
 						}
 					}
 					else{
 						this.scoreText.text = 'Score: wrong' + this.currentDirections[this.currentDirectionsIndex];
+						barMadeSFX.play();
 					}
 					//this.scoreText.text = 'Score: up';
 				}
