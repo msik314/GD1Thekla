@@ -15,6 +15,9 @@ preloadState.prototype.preload=function(){
 	game.load.image("instruct1","assets/UI/instructionText/UI_instruction_1.png");
 	game.load.image("instruct2","assets/UI/instructionText/UI_instruction_2.png");
 	game.load.image("instruct3","assets/UI/instructionText/UI_instruction_3.png");
+
+	//End screen
+	game.load.image("winScreen","assets/UI/UI_winning_the_whole_game.png");
 	
 	//game.load.image("goal","assets/bar.png");
 	
