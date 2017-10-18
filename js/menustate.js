@@ -4,11 +4,11 @@ let menuState=function(){
 }
 
 menuState.prototype.preload=function(){
-	game.camera.flash(0x000000,1000);
+	game.load.image("title","assets/UI/UI_title_text.png");
 }
 
 menuState.prototype.create=function(){
-	
+	game.camera.flash(0x000000,1000);	
 	//swiping functionality
 	this.swiping = false;
 	this.startX = 0;
@@ -20,6 +20,8 @@ menuState.prototype.create=function(){
 	this.water = game.add.sprite(0,0,'transitionDay');
 	this.water.animations.add('normal');
 	this.water.animations.play('normal',50,true);
+
+	this.title = game.add.sprite(0,0,'title');
 	
 	music = game.add.audio('waves');
 	music.loopFull();
@@ -76,10 +78,10 @@ menuState.prototype.swiped = function(){
 		}
 		else{
 			if(this.finishY > this.startY){
-				this.transition();
-				//this.scoreText.text = 'Score: down';
+				//down
 			}
 			else{
+				this.transition();
 				//up
 			}
 		}
