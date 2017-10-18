@@ -38,6 +38,10 @@ leveloneState.prototype.preload = function(){
 	game.load.spritesheet("wind", "assets/3dStuff/background/spritesheet_wind_v1.png",1334, 750,60);
 	game.load.audio("songOne","assets/tk30s.ogg");
 	
+	
+	game.load.audio("correct","assets/tkBellHigh.ogg");
+	game.load.audio("barMade","assets/tkBellLow.ogg");
+	
 	//create background
 	this.water = game.add.sprite(0,0,'water');
 	this.water.animations.add('normal');
@@ -57,6 +61,8 @@ leveloneState.prototype.preload = function(){
 
 leveloneState.prototype.create = function(){
 	//reset variables on reload
+	this.numBars = 0;
+	this.barsHit = 0;
 	this.score = 0;
 	this.swiping = false;
 	this.startX = 0;
@@ -78,11 +84,12 @@ leveloneState.prototype.create = function(){
 	this.musicPlaying = false;
 	
 	//some constants for quick global tweaks
-	this.arrowSpeed = -500;
+	this.arrowSpeed = -800;
 	this.bufferLength = 3.2;
 	this.spawnBuffer = .8;
 	this.barSpawnY = -200;
-	this.barSpeed = (game.world.height - 200 - this.barSpawnY)/this.spawnBuffer;
+	this.barSpeed = (game.world.height - 220 - this.barSpawnY)/this.spawnBuffer;
+	this.instrVol = 10;
 	
 	
 	
@@ -101,25 +108,33 @@ leveloneState.prototype.create = function(){
 	this.directionText = game.add.text(16, 50, 'Score: 0', { fontSize: '32px', fill: '#000000' });
 	music = game.add.audio('songOne');
 	leftSFX = game.add.audio('leftAud');
-	leftSFX._volume = 5;
+	leftSFX._volume = this.instrVol;
 	rightSFX = game.add.audio('rightAud');
-	rightSFX._volume = 5;
+	rightSFX._volume = this.instrVol;
 	upSFX = game.add.audio('upAud');
-	upSFX._volume = 5;
+	upSFX._volume = this.instrVol;
 	downSFX = game.add.audio('downAud');
-	downSFX._volume = 5;
+	downSFX._volume = this.instrVol;
+	
+	barMadeSFX = game.add.audio('barMade');
+	barMadeSFX._volume = this.instrVol;
+	
+	barCorrectSFX = game.add.audio('correct');
+	barCorrectSFX._volume = this.instrVol;
+	
 	//music.onDecoded.add(start, this);
 	//music.play();
 	
 	//create instructor;
 	this.instructor = game.add.sprite(0,0,"instructor");
-	this.instructor.animations.add('instructing', [0,1],2.1,true);
+	//this.instructor.animations.add('instructing', [0,1],2.1,true);
 	this.instructor.alpha = 0;
-	this.instructor.animations.play('instructing');
+	//this.instructor.animations.play('instructing');
 	
 	//create arrow group
 	this.arrows = game.add.group();
 	this.arrows.enableBody = true;
+	//this.arrows.body.onCollide.add(this.arrowStop, this);
 	
 	//create bar group
 	this.bars = game.add.group();
@@ -161,6 +176,7 @@ leveloneState.prototype.update = function(){
 	
 	//collide arrows with each other for stacking
 	game.physics.arcade.collide(this.arrows, this.arrows);
+	game.physics.arcade.overlap(this.arrows, this.arrows, this.arrowStop, null, this);
 	
 	
 	//SWIPE FUNCTIONALITY -- ONLY CHECK IF LOOKING FOR INPUT
@@ -171,11 +187,11 @@ leveloneState.prototype.update = function(){
 				this.startX = game.input.mousePointer.x;
 				this.startY = game.input.mousePointer.y;
 			}
-			startButton.alpha = 1;
+			//startButton.alpha = 1;
 			//this.transition();
 		}
 		else{
-			startButton.alpha = .5;
+			//startButton.alpha = .5;
 			if(this.swiping === true){
 				this.swiping = false;
 				this.finishX = game.input.mousePointer.x;
@@ -208,13 +224,19 @@ leveloneState.prototype.update = function(){
 	//check to see if you missed an instruction
 	let temp = this.bars.getFirstAlive();
 	if(temp){
-		if(temp.y >= game.world.height - 200){
+		if(temp.y >= game.world.height - 250){
 			this.removeBar();
 		}
 	}
 	
 	
 }
+
+leveloneState.prototype.arrowStop = function(sprite1,sprite2){
+	sprite1.body.velocity.x = 0;
+	sprite2.body.velocity.x = 0;
+}
+
 
 //first instruction in a set
 leveloneState.prototype.firstInstruct = function(){
@@ -253,11 +275,13 @@ leveloneState.prototype.instruct = function(){
 
 leveloneState.prototype.sendBar = function(){
 	//instructor.
+	this.numBars++;
 	this.removeArrows();
 	this.score = this.instrTimes[this.instrIndex];
 	this.scoreText.text = 'Score: ' + this.score;
 	this.instructor.alpha = 0;
 	let bar = this.bars.create(0,this.barSpawnY, "bar");
+	
 	bar.body.velocity.y = this.barSpeed;
 	this.checkNext();
 }
@@ -356,29 +380,37 @@ leveloneState.prototype.swiped = function(){
 				if(this.finishX > this.startX){
 					this.scoreText.text = 'Score: right';
 					if(this.currentDirections[this.currentDirectionsIndex] === 1){
-						if(temp.y < game.world.height && temp.y > game.world.height - 400){
+						if(temp.y < game.world.height){
 							this.scoreText.text = 'Score: correct';
-							this.removeBar();
+							this.barsHit++;
+							barCorrectSFX.play();
+							//this.removeBar();
 						}else{
 							this.scoreText.text = 'Score: TooSoon';
+							barMadeSFX.play();
 						}
 						
 					}
 					else{
 						this.scoreText.text = 'Score: wrong'+ this.currentDirections[this.currentDirectionsIndex];
+						barMadeSFX.play();
 					}
 				}
 				else{
 					if(this.currentDirections[this.currentDirectionsIndex] === 3){
-						if(temp.y < game.world.height && temp.y > game.world.height - 400){
+						if(temp.y < game.world.height){
 							this.scoreText.text = 'Score: correct';
-							this.removeBar();
+							this.barsHit++;
+							barCorrectSFX.play();
+							//this.removeBar();
 						}else{
 							this.scoreText.text = 'Score: TooSoon';
+							barMadeSFX.play();
 						}
 					}
 					else{
 						this.scoreText.text = 'Score: wrong'+ this.currentDirections[this.currentDirectionsIndex];
+						barMadeSFX.play();
 					}
 					//this.scoreText.text = 'Score: left';
 				}
@@ -387,33 +419,43 @@ leveloneState.prototype.swiped = function(){
 			else{
 				if(this.finishY > this.startY){
 					if(this.currentDirections[this.currentDirectionsIndex] === 2){
-						if(temp.y < game.world.height && temp.y > game.world.height - 400){
+						if(temp.y < game.world.height){
 							this.scoreText.text = 'Score: correct';
-							this.removeBar();
+							this.barsHit++;
+							barCorrectSFX.play();
+							//this.removeBar();
+							//barMadeSFX.play();
 						}else{
 							this.scoreText.text = 'Score: TooSoon';
+							barMadeSFX.play();
 						}
 					}
 					else{
 						this.scoreText.text = 'Score: wrong'+ this.currentDirections[this.currentDirectionsIndex];
+						barMadeSFX.play();
 					}
 					//this.scoreText.text = 'Score: down';
 				}
 				else{
 					if(this.currentDirections[this.currentDirectionsIndex] === 0){
-						if(temp.y < game.world.height && temp.y > game.world.height - 400){
+						if(temp.y < game.world.height){
 							this.scoreText.text = 'Score: correct';
-							this.removeBar();
+							this.barsHit++;
+							barCorrectSFX.play();
+							//this.removeBar();
 						}else{
 							this.scoreText.text = 'Score: TooSoon';
+							barMadeSFX.play();
 						}
 					}
 					else{
 						this.scoreText.text = 'Score: wrong' + this.currentDirections[this.currentDirectionsIndex];
+						barMadeSFX.play();
 					}
 					//this.scoreText.text = 'Score: up';
 				}
 			}
+			this.removeBar();
 			
 			
 		}
