@@ -438,6 +438,8 @@ levelthreeState.prototype.swiped = function(){
 						if(temp.y < game.world.height){
 							this.scoreText.text = 'Score: correct';
 							this.correctRead();
+							rightSFX.play();
+
 						}else{
 							this.wrongRead();
 						}
@@ -452,6 +454,7 @@ levelthreeState.prototype.swiped = function(){
 						if(temp.y < game.world.height){
 							this.scoreText.text = 'Score: correct';
 							this.correctRead();
+							leftSFX.play();
 						}else{
 							this.wrongRead();
 						}
@@ -469,6 +472,7 @@ levelthreeState.prototype.swiped = function(){
 						if(temp.y < game.world.height){
 							this.scoreText.text = 'Score: correct';
 							this.correctRead();
+							downSFX.play();
 						}else{
 							this.wrongRead();
 						}
@@ -482,8 +486,8 @@ levelthreeState.prototype.swiped = function(){
 					if(this.currentDirections[this.currentDirectionsIndex] === 0){
 						if(temp.y < game.world.height){
 							this.scoreText.text = 'Score: correct';
-							
 							this.correctRead();
+							upSFX.play();
 						}else{
 							this.wrongRead();
 						}

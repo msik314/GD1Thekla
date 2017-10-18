@@ -56,7 +56,7 @@ leveltwoState.prototype.preload = function(){
 	this.theklaS.alpha = 1;
 	
 	this.theklaH1 = game.add.sprite(0,50,'theklaH12');
-	this.theklaH1.animations.add(0, 50, 'happy1');
+	this.theklaH1.animations.add('happy1');
 	this.theklaH1.alpha = 1;
 	this.theklaH1.y -= 40;
 
@@ -437,6 +437,7 @@ leveltwoState.prototype.swiped = function(){
 						if(temp.y < game.world.height){
 							this.scoreText.text = 'Score: correct';
 							this.correctRead();
+							rightSFX.play();
 						}else{
 							this.wrongRead();
 						}
@@ -451,6 +452,7 @@ leveltwoState.prototype.swiped = function(){
 						if(temp.y < game.world.height){
 							this.scoreText.text = 'Score: correct';
 							this.correctRead();
+							leftSFX.play();
 						}else{
 							this.wrongRead();
 						}
@@ -468,6 +470,7 @@ leveltwoState.prototype.swiped = function(){
 						if(temp.y < game.world.height){
 							this.scoreText.text = 'Score: correct';
 							this.correctRead();
+							downSFX.play();
 						}else{
 							this.wrongRead();
 						}
@@ -480,9 +483,9 @@ leveltwoState.prototype.swiped = function(){
 				else{
 					if(this.currentDirections[this.currentDirectionsIndex] === 0){
 						if(temp.y < game.world.height){
-							this.scoreText.text = 'Score: correct';
-							
+							this.scoreText.text = 'Score: correct';							
 							this.correctRead();
+							upSFX.play();
 						}else{
 							this.wrongRead();
 						}
