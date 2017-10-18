@@ -18,7 +18,7 @@ preloadState.prototype.preload=function(){
 	
 	//game.load.image("goal","assets/bar.png");
 	
-	game.load.spritesheet("thekla", "assets/3dStuff/thekla/spritesheet_boat_all.png",1334, 750,60);
+	game.load.spritesheet("thekla", "assets/3dStuff/thekla/spritesheet_boat_all.png",1334, 750,240);
 	game.load.spritesheet("theklaI", "assets/3dStuff/thekla/spritesheet_boat_idol_v1.png",1334, 750,60);
 	game.load.spritesheet("theklaS", "assets/3dStuff/thekla/spritesheet_boat_sad_v1.png",1334, 750,60);
 	game.load.spritesheet("theklaH1", "assets/3dStuff/thekla/spritesheet_boat_happy1_v1.png",1334, 750,60);

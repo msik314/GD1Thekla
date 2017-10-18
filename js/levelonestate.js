@@ -263,6 +263,7 @@ leveloneState.prototype.update = function(){
 	let temp = this.bars.getFirstAlive();
 	if(temp){
 		if(temp.y >= game.world.height - 250){
+			this.wrongRead();
 			this.removeBar();
 		}
 	}
@@ -499,8 +500,6 @@ leveloneState.prototype.correctRead = function(){
 leveloneState.prototype.wrongRead = function(){
 	if(this.animationIndex === 1){
 		this.animationIndex = 0;
-	}else{
-		this.animationIndex = 1;
 	}
 	barMadeSFX.play();
 }
