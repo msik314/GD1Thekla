@@ -59,9 +59,9 @@ leveloneState.prototype.preload = function(){
 	this.theklaH1.animations.add('happy1');
 	this.theklaH1.alpha = 1;
 	
-	this.theklaH2 = game.add.sprite(0,50,'theklaH2');
-	this.theklaH2.animations.add('happy2');
-	this.theklaH2.alpha = 1;
+	//this.theklaH2 = game.add.sprite(0,50,'theklaH2');
+	//this.theklaH2.animations.add('happy2');
+	//this.theklaH2.alpha = 1;
 	//this.thekla.animations.play('idle',50,true);
 	
 	//create wind
@@ -181,7 +181,7 @@ leveloneState.prototype.update = function(){
 			this.theklaI.animations.play('idle',50,true);
 			this.theklaS.animations.play('sad',50,true);
 			this.theklaH1.animations.play('happy1',50,true);
-			this.theklaH2.animations.play('happy2',50,true);
+			//this.theklaH2.animations.play('happy2',50,true);
 			this.water.animations.play('normal',50,true);
 		}else{
 			music.play();
@@ -192,21 +192,21 @@ leveloneState.prototype.update = function(){
 		this.theklaS.alpha = 1;
 		this.theklaI.alpha = 0;
 		this.theklaH1.alpha = 0;
-		this.theklaH2.alpha = 0;
+		//this.theklaH2.alpha = 0;
 	}else if(this.animationIndex === 1){
 		this.theklaS.alpha = 0;
 		this.theklaI.alpha = 1;
 		this.theklaH1.alpha = 0;
-		this.theklaH2.alpha = 0;
+		//this.theklaH2.alpha = 0;
 	}else{
 		this.theklaS.alpha = 0;
 		this.theklaI.alpha = 0;
 		if(this.animationIndex % 2 === 0){
 			this.theklaH1.alpha = 1;
-			this.theklaH2.alpha = 0;
+			//this.theklaH2.alpha = 0;
 		}else{
-			this.theklaH1.alpha = 0;
-			this.theklaH2.alpha = 1;
+			this.theklaH1.alpha = 1;
+			//this.theklaH2.alpha = 1;
 		}
 		
 	}
@@ -498,8 +498,10 @@ leveloneState.prototype.correctRead = function(){
 }
 
 leveloneState.prototype.wrongRead = function(){
-	if(this.animationIndex === 1){
+	if(this.animationIndex === 1 || this.animationIndex === 0){
 		this.animationIndex = 0;
+	}else{
+		this.animationIndex = 1;
 	}
 	barMadeSFX.play();
 }
