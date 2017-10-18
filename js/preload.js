@@ -10,6 +10,12 @@ preloadState.prototype.preload=function(){
 	game.load.image("continueButton","assets/continuebutton.png");
 	game.load.image("menuButton","assets/menubutton.png");
 	game.load.image("retryButton","assets/retrybutton.png");
+	
+	//game instructions
+	game.load.image("instruct1","assets/UI/instructionText/UI_instruction_1.png");
+	game.load.image("instruct2","assets/UI/instructionText/UI_instruction_2.png");
+	game.load.image("instruct3","assets/UI/instructionText/UI_instruction_3.png");
+	
 	//game.load.image("goal","assets/bar.png");
 	
 	game.load.spritesheet("thekla", "assets/3dStuff/thekla/spritesheet_boat_idol_v1.png",1334, 750,60);
@@ -21,6 +27,7 @@ preloadState.prototype.preload=function(){
 	game.load.spritesheet("wind", "assets/3dStuff/background/spritesheet_wind_v1.png",1334, 750,60);
 	
 	game.load.audio("songOne","assets/tk30s.ogg");
+	game.load.audio("waves","assets/tkOcean.ogg");
 
 	//bar imports
 	game.load.image("goal", "assets/UI/UI_stationary_bar.png");
@@ -41,7 +48,7 @@ preloadState.prototype.preload=function(){
 }
 
 preloadState.prototype.create=function(){
-	game.state.start("infostate");
+	game.state.start("menustate");
 }
 
 preloadState.prototype.update=function(){

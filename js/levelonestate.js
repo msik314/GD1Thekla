@@ -172,11 +172,11 @@ leveloneState.prototype.update = function(){
 				this.startX = game.input.mousePointer.x;
 				this.startY = game.input.mousePointer.y;
 			}
-			startButton.alpha = 1;
+			//startButton.alpha = 1;
 			//this.transition();
 		}
 		else{
-			startButton.alpha = .5;
+			//startButton.alpha = .5;
 			if(this.swiping === true){
 				this.swiping = false;
 				this.finishX = game.input.mousePointer.x;
@@ -367,7 +367,7 @@ leveloneState.prototype.swiped = function(){
 					if(this.currentDirections[this.currentDirectionsIndex] === 1){
 						if(temp.y < game.world.height && temp.y > game.world.height - 400){
 							this.scoreText.text = 'Score: correct';
-							this.removeBar();
+							//this.removeBar();
 						}else{
 							this.scoreText.text = 'Score: TooSoon';
 						}
@@ -381,7 +381,7 @@ leveloneState.prototype.swiped = function(){
 					if(this.currentDirections[this.currentDirectionsIndex] === 3){
 						if(temp.y < game.world.height && temp.y > game.world.height - 400){
 							this.scoreText.text = 'Score: correct';
-							this.removeBar();
+							//this.removeBar();
 						}else{
 							this.scoreText.text = 'Score: TooSoon';
 						}
@@ -398,7 +398,7 @@ leveloneState.prototype.swiped = function(){
 					if(this.currentDirections[this.currentDirectionsIndex] === 2){
 						if(temp.y < game.world.height && temp.y > game.world.height - 400){
 							this.scoreText.text = 'Score: correct';
-							this.removeBar();
+							//this.removeBar();
 						}else{
 							this.scoreText.text = 'Score: TooSoon';
 						}
@@ -412,7 +412,7 @@ leveloneState.prototype.swiped = function(){
 					if(this.currentDirections[this.currentDirectionsIndex] === 0){
 						if(temp.y < game.world.height && temp.y > game.world.height - 400){
 							this.scoreText.text = 'Score: correct';
-							this.removeBar();
+							
 						}else{
 							this.scoreText.text = 'Score: TooSoon';
 						}
@@ -423,6 +423,7 @@ leveloneState.prototype.swiped = function(){
 					//this.scoreText.text = 'Score: up';
 				}
 			}
+			this.removeBar();
 			
 			
 		}
