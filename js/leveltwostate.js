@@ -157,6 +157,7 @@ leveltwoState.prototype.create = function(){
 	this.bars.enableBody = true;
 	
 	goal = game.add.sprite(0,game.world.height - 200,"goal");
+	goalBackground = game.add.sprite(0, 0, "goalBackground");
 	goalAnimated = game.add.sprite(0, 0, "goalAnimated");
 	goalAnimated.y += 240;
 	goalAnimated.animations.add('goalAnimated');
