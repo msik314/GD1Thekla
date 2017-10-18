@@ -188,7 +188,7 @@ leveltwoState.prototype.update = function(){
 			music.play();
 		}
 	}else{
-		if(!music.isPlaying){
+		if(!music.isPlaying && this.startTime !== Infinity){
 			this.transition();
 		}
 	}
