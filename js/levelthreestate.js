@@ -66,7 +66,7 @@ levelthreeState.prototype.preload = function(){
 	
 	//create wind
 	this.wind = game.add.sprite(0,0,'wind');
-	this.wind.size = -1;
+	//this.wind.size.x = 1;
 	this.wind.animations.add('normal');
 	//this.wind.animations.play('normal',50,true);
 }
@@ -119,9 +119,10 @@ levelthreeState.prototype.create = function(){
 	this.instrDirection=timestamps[2].split(' ').map(Number);
 	
 	
-	this.scoreText = game.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#000000' });
-	this.directionText = game.add.text(16, 50, 'Score: 0', { fontSize: '32px', fill: '#000000' });
+	this.scoreText = game.add.text(16, -100, 'Score: 0', { fontSize: '32px', fill: '#000000' });
+	this.directionText = game.add.text(16, -100, 'Score: 0', { fontSize: '32px', fill: '#000000' });
 	music = game.add.audio('songThree');
+	music._volume = 1.5;
 	leftSFX = game.add.audio('leftAud');
 	leftSFX._volume = this.instrVol;
 	rightSFX = game.add.audio('rightAud');
