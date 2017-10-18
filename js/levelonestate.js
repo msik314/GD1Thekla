@@ -155,7 +155,6 @@ leveloneState.prototype.create = function(){
 }
 
 leveloneState.prototype.update = function(){
-	
 	this.directionText.text = 'Direction: ' + this.currentDirections[this.currentDirectionsIndex];
 	
 	//check to see if we should play the music yet
@@ -467,6 +466,6 @@ leveloneState.prototype.swiped = function(){
 leveloneState.prototype.transition = function(){
 	game.camera.fade(0x000000,1000);
 	this.camera.onFadeComplete.add(function() {
-        game.state.start("testts",true,false,this.passed,this.lvl);
+        game.state.start("testts",true,false,this.passed,this.lvl,this.numBars,this.barsHit);
     }, this);
 }

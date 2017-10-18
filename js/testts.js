@@ -2,11 +2,15 @@
 let testtsState=function(){
 	this.pass=false;
 	this.level=0;
+	this.bars=0;
+	this.hit=0;
 }
 
-testtsState.prototype.init=function(passed,lvl){
+testtsState.prototype.init=function(passed,lvl,numBars,barsHit){
 	this.pass=passed;
 	this.level=lvl;
+	this.bars=numBars;
+	this.hit=barsHit;
 }
 
 testtsState.prototype.preload=function(){
@@ -14,7 +18,7 @@ testtsState.prototype.preload=function(){
 }
 
 testtsState.prototype.create=function(){
-	this.scoreText = game.add.text(16, 16, 'transition: '+this.pass+this.level, { fontSize: '32px', fill: '#ffffff' });
+	this.scoreText = game.add.text(100, 100, 'Score: '+this.hit+" out of "+this.bars, { fontSize: '32px', fill: '#ffffff' });
 	//Just the middle of the screen for now, until theres an actual graphic
 	menuButton=game.add.button(227,275,'menuButton',function(){this.goMenu(this)},this);
 	if(this.pass){
