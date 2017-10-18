@@ -169,6 +169,7 @@ leveloneState.prototype.create = function(){
 }
 
 leveloneState.prototype.update = function(){
+	
 	this.directionText.text = 'Direction: ' + this.currentDirections[this.currentDirectionsIndex];
 	
 	//check to see if we should play the music yet
@@ -184,6 +185,10 @@ leveloneState.prototype.update = function(){
 			this.water.animations.play('normal',50,true);
 		}else{
 			music.play();
+		}
+	}else{
+		if(!music.isPlaying){
+			this.transition();
 		}
 	}
 	
