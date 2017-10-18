@@ -33,17 +33,21 @@ preloadState.prototype.preload=function(){
 	
 	
 	game.load.spritesheet("water", "assets/3dStuff/background/spritesheet_water_normal_v2.png",1334, 750,60);
+	game.load.spritesheet("water2", "assets/3dStuff/background/spritesheet_water_sunset_v1.png",1334, 750,60);
+	game.load.spritesheet("water3", "assets/3dStuff/background/spritesheet_water_night_v1.png",1334, 750,60);
 	game.load.spritesheet("transitionDay", "assets/3dStuff/background/spritesheet_transition_screen.png",1334, 750,60);
 	game.load.spritesheet("transitionSunset", "assets/3dStuff/background/spritesheet_transition_screen_sunset.png",1334, 750,60);
 	game.load.spritesheet("transitionNight", "assets/3dStuff/background/spritesheet_transition_screen_night.png",1334, 750,60);
 	
-	game.load.spritesheet("wind", "assets/3dStuff/background/spritesheet_wind_v1.png",1334, 750,60);
+	game.load.spritesheet("wind", "assets/3dStuff/background/spritesheet_wind_v2.png",1334, 750,60);
 	
 	game.load.audio("songOne","assets/tk30s.ogg");
+	game.load.audio("songTwo","assets/tk60s.ogg");
+	game.load.audio("songThree","assets/tk90s.ogg");
 	game.load.audio("waves","assets/tkOcean.ogg");
 
 	//bar imports
-	game.load.image("goal", "assets/UI/UI_stationary_bar.png");
+	game.load.image("goal", "assets/UI/UI_stationary_bar_WRONG.png");
 	game.load.image("instructor","assets/UI/UI_radio_box.png");
 	game.load.image("bar","assets/UI/UI_bar.png");
 
